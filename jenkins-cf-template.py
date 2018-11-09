@@ -37,6 +37,13 @@ ApplicationPort = "8080"
 GithubAccount = "spacewar2018"
 GithubAnsibleURL = "https://github.com/{}/ansible".format (GithubAccount)
 
+PublicCidrIp = str(ip_network(get_ip()))
+
+AnsiblePullCmd = \
+"/usr/bin/ansible-pull -U {} {}.yml -i localhost".format( GithubAnsibleURL,
+ApplicationName
+)
+
 t = Template()
 
 t.add_description("Effective DevOps in AWS: HelloWorld web application")
@@ -66,9 +73,6 @@ SecurityGroupIngress=[
         ),
     ],
 ))
-
-AnsiblePullCmd = \
-"/usr/bin/ansible-pull -U {} {}.yml -i localhost".format( GithubAnsibleURL, ApplicationName )
 
 ud = Base64(Join('\n', [
     "#!/bin/bash",
